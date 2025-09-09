@@ -1,0 +1,21 @@
+{
+  "name": "api_rest_completa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GabrielFioritti-53/API_REST_completa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/GabrielFioritti-53/API_REST_completa/issues"
+  },
+  "homepage": "https://github.com/GabrielFioritti-53/API_REST_completa#readme"
+}
