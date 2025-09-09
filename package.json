@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/GabrielFioritti-53/API_REST_completa/issues"
   },
-  "homepage": "https://github.com/GabrielFioritti-53/API_REST_completa#readme"
+  "homepage": "https://github.com/GabrielFioritti-53/API_REST_completa#readme",
+  "dependencies": {
+    "fastify": "^5.6.0"
+  }
 }
