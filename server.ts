@@ -25,9 +25,14 @@ const server = fastify({
   logger: loggerOptions,
 }).withTypeProvider<TypeBoxTypeProvider>();
 
-/* server.register(autoLoad, {
+server.register(autoLoad, {
+  dir: path.join(__dirname, "src", "plugins"),
+});
+
+server.register(autoLoad, {
   dir: path.join(__dirname, "src", "routes"),
-}); */
+});
+
 await server.register(swagger);
 await server.register(roots);
 await server.register(auth);
