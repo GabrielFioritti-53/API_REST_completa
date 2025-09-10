@@ -1,9 +1,8 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@fastify/type-provider-typebox";
 import { Usuario } from "../models/usuarios.ts";
-import { usuarios } from "../plugins/basedatos.ts";
+import { usuarios } from "../base_de_datos/basedatos.ts";
 import {
-  usuarioDeleteSchema,
   usuarioGetSchema,
   usuarioPostSchema,
   usuarioPutSchema,
@@ -11,11 +10,8 @@ import {
 
 let id_actual = usuarios.length + 1;
 
-export const roots: FastifyPluginAsyncTypebox = async function (
-  fastify,
-  options: object
-) {
-  /*   fastify.get(
+const roots: FastifyPluginAsyncTypebox = async function (fastify) {
+  fastify.get(
     "/",
     {
       schema: {
@@ -42,15 +38,15 @@ export const roots: FastifyPluginAsyncTypebox = async function (
     async (request, reply) => {
       return { ping: "ok" };
     }
-  ); */
+  );
 
   fastify.get(
-    "/",
+    "/usuarios",
     {
       schema: {
         summary: "Obtener todos los usuarios",
         description: "Retorna la lista de usuarios",
-        tags: ["usuarios"],
+        tags: ["Usuarios"],
         querystring: Type.Object({
           nombre: Type.Optional(Type.String({ minLength: 2 })),
         }),
@@ -78,7 +74,7 @@ export const roots: FastifyPluginAsyncTypebox = async function (
       schema: {
         summary: "Crear usuario",
         descrption: "Estas ruta permite crear un nuevo usuario. ",
-        tags: ["usuarios"],
+        tags: ["Usuarios"],
         querystring: Type.Object({
           nombre: Type.Optional(Type.String({ minLength: 2 })),
         }),
@@ -110,16 +106,13 @@ export const roots: FastifyPluginAsyncTypebox = async function (
       schema: {
         summary: "Modificar un usuario",
         description: "Esta ruta permite modificar un usuario",
-        tags: ["usuarios"],
+        tags: ["Usuarios"],
         body: usuarioPutSchema,
         params: Type.Object({
           id_usuario: Type.Number(),
         }),
         response: {
-          204: {
-            type: 'null',
-            description: 'Usuario actualizado'
-          },//exito sin contenido
+          204: Usuario,
           404: {
             type: "object",
             properties: {
@@ -151,16 +144,13 @@ export const roots: FastifyPluginAsyncTypebox = async function (
       schema: {
         summary: "Eliminar un usuario",
         description: "Esta ruta permite eliminar un usuario",
-        tags: ["usuarios"],
+        tags: ["Usuarios"],
         //body: usuarioDeleteSchema,
         params: Type.Object({
           id_usuario: Type.Number(),
         }),
         response: {
-          204: {           
-            type: 'null',
-            description: 'Eliminado exitosamente'
-          },//Correcto: sin contenido
+          204: Usuario,
           404: {
             type: "object",
             properties: {
@@ -190,7 +180,7 @@ export const roots: FastifyPluginAsyncTypebox = async function (
       schema: {
         summary: "Obtener un usuario por ID",
         description: "Esta ruta permite eliminar un usuario",
-        tags: ["usuarios"],
+        tags: ["Usuarios"],
         params: usuarioGetSchema,
         response: {
           200: Usuario,
@@ -219,3 +209,5 @@ export const roots: FastifyPluginAsyncTypebox = async function (
     }
   );
 };
+
+export default roots;
