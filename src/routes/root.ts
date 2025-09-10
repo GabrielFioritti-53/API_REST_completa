@@ -2,17 +2,20 @@ import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@fastify/type-provider-typebox";
 import { Usuario } from "./usuarios";
 import { usuarios } from "../plugins/basedatos";
-import { 
+import {
   usuarioDeleteSchema,
   usuarioGetSchema,
   usuarioPostSchema,
-  usuarioPutSchema, } from "../services/schema";
+  usuarioPutSchema,
+} from "../services/schema";
+
+let id_actual = usuarios.length + 1;
 
 export const roots: FastifyPluginAsyncTypebox = async function (
   fastify,
   options: object
 ) {
-/*   fastify.get(
+  /*   fastify.get(
     "/",
     {
       schema: {
@@ -41,8 +44,8 @@ export const roots: FastifyPluginAsyncTypebox = async function (
     }
   ); */
 
-fastify.get(
-    "/", //en vez de params ahora usa querystring *1
+  fastify.get(
+    "/",
     {
       schema: {
         summary: "Obtener todos los usuarios",
@@ -87,7 +90,7 @@ fastify.get(
         body: usuarioPostSchema,
         response: {
           201: Usuario,
-          400:  {
+          400: {
             type: "object",
             properties: {
               error: { type: "string" },
@@ -97,13 +100,13 @@ fastify.get(
       },
     },
 
-    /* async function (request, reply) {
+    async function (request, reply) {
       const { nombre, isAdmin } = request.body as Usuario;
       const usuario = { nombre, isAdmin, id_usuario: id_actual++ }; //Con una constante como id, unicamente subiendo, nos aseguramos que cada user tenga un id unico
       usuarios.push(usuario);
       reply.code(201);
       return usuario;
-    }aca entra logger, si logger es =false se registra */
+    } /* aca entra logger, si logger es =false se registra */
   );
 
   fastify.put(
@@ -125,9 +128,9 @@ fastify.get(
               error: { type: "string" },
             },
           },
-          },
         },
       },
+    },
     async function (request, reply) {
       const { id_usuario } = request.params as { id_usuario: number };
       const { nombre } = request.body as { nombre: string };
@@ -141,11 +144,11 @@ fastify.get(
       }
     }
   );
-//if admin or logeado true entonces lo pueden modificar
-//if es admin puede modificar cualquiera else solo su propio usuario
+  //if admin or logeado true entonces lo pueden modificar
+  //if es admin puede modificar cualquiera else solo su propio usuario
 
-fastify.delete(
-    "/:id_usuario", // pasa lo mismo que en el put *2
+  fastify.delete(
+    "/:id_usuario",
     {
       schema: {
         summary: "Eliminar un usuario",
@@ -157,21 +160,21 @@ fastify.delete(
         }),
         response: {
           204: Usuario,
-          404:{
+          404: {
             type: "object",
             properties: {
               error: { type: "string" },
             },
           },
-          },
         },
       },
+    },
     async function handler(request, reply) {
       const { id_usuario } = request.params as { id_usuario: number };
       const usuarioId = usuarios.findIndex((u) => u.id_usuario === id_usuario);
       if (usuarioId === -1) {
         reply.code(404);
-        return ;
+        return;
         //if admin true puede borrar otos usuarios
       } else {
         usuarios.splice(usuarioId, 1);
@@ -190,7 +193,7 @@ fastify.delete(
         params: usuarioGetSchema,
         response: {
           200: Usuario,
-          404:{
+          404: {
             type: "object",
             properties: {
               error: { type: "string" },
