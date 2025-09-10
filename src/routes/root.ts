@@ -1,7 +1,7 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@fastify/type-provider-typebox";
 
-export const usuariosRoutes: FastifyPluginAsyncTypebox = async function (
+export const roots: FastifyPluginAsyncTypebox = async function (
   fastify,
   options: object
 ) {
