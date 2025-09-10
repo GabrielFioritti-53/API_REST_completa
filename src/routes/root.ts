@@ -1,6 +1,6 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@fastify/type-provider-typebox";
-import { Usuario } from "./usuarios.ts";
+import { Usuario } from "../models/usuarios.ts";
 import { usuarios } from "../plugins/basedatos.ts";
 import {
   usuarioDeleteSchema,
