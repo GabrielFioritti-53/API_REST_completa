@@ -1,13 +1,13 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { Type } from "@fastify/type-provider-typebox";
-import { Usuario } from "./usuarios";
-import { usuarios } from "../plugins/basedatos";
+import { Usuario } from "./usuarios.ts";
+import { usuarios } from "../plugins/basedatos.ts";
 import {
   usuarioDeleteSchema,
   usuarioGetSchema,
   usuarioPostSchema,
   usuarioPutSchema,
-} from "../services/schema";
+} from "../services/schema.ts";
 
 let id_actual = usuarios.length + 1;
 
