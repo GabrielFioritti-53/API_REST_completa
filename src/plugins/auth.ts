@@ -4,10 +4,7 @@ import {
   type FastifyPluginAsyncTypebox,
 } from "@fastify/type-provider-typebox";
 
-export const auth: FastifyPluginAsyncTypebox = async (
-  fastify,
-  opts
-): Promise<void> => {
+const auth: FastifyPluginAsyncTypebox = async (fastify): Promise<void> => {
   fastify.post(
     "/login",
     {
@@ -32,9 +29,12 @@ export const auth: FastifyPluginAsyncTypebox = async (
       const { usuario, contrasena } = request.body as {
         usuario: string;
         contrasena: string;
-      }; //Si da error intentamos con any en vez de loginSchema
-      const token = Buffer.from(JSON.stringify(usuario)).toString("base64");
+      };
+      const token = Buffer.from(JSON.stringify(contrasena)).toString("base64");
+      reply.code(200);
       return { token };
     }
   );
 };
+
+export default auth;

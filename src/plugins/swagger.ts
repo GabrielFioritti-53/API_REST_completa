@@ -20,7 +20,10 @@ export default fp<FastifySwaggerOptions>(async (fastify: FastifyInstance) => {
           description: "Development server",
         },
       ],
-      tags: [{ name: "root", description: "Root endpoints" }],
+      tags: [
+        { name: "root", description: "Root endpoints" },
+        { name: "Logger", description: "Loggear suario" },
+      ],
       components: {
         securitySchemes: {
           bearerAuth: {
