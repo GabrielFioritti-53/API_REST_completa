@@ -1,11 +1,9 @@
+import type { FastifyInstance, FastifyListenOptions } from "fastify";
+import Fastify from "fastify";
+import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import autoLoad from "@fastify/autoload";
 import { fileURLToPath } from "node:url";
-import path, { dirname, join } from "node:path";
-import fastify from "fastify";
-import swagger from "./src/plugins/swagger.ts";
-import { roots } from "./src/routes/root.ts";
-import { auth } from "./src/plugins/auth.ts";
-import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import { dirname, join } from "node:path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -21,19 +19,35 @@ const loggerOptions = {
   },
 };
 
-const server = fastify({
+const fastifyOptions = {
   logger: loggerOptions,
-}).withTypeProvider<TypeBoxTypeProvider>();
+  ignoreTrailingSlash: true,
+  bodyLimit: 1048576,
+  pluginTimeout: 10000,
+  maxParamLength: 100,
+  disableRequestLoggin: false,
+  caseSensitive: true,
+};
 
-server.register(autoLoad, {
-  dir: path.join(__dirname, "src", "plugins"),
+const fastifyListenOptions: FastifyListenOptions = {
+  port: 3000,
+  host: "::",
+};
+
+const fastify: FastifyInstance =
+  Fastify(fastifyOptions).withTypeProvider<TypeBoxTypeProvider>();
+
+fastify.register(autoLoad, {
+  dir: join(__dirname, "src", "plugins"),
 });
 
-server.register(autoLoad, {
-  dir: path.join(__dirname, "src", "routes"),
+fastify.register(autoLoad, {
+  dir: join(__dirname, "src", "routes"),
 });
 
-await server.register(swagger);
-await server.register(roots);
-await server.register(auth);
-await server.listen({ port: parseInt(process.env.PORT || "3000") });
+try {
+  await fastify.listen(fastifyListenOptions);
+} catch (err) {
+  fastify.log.error(err);
+  process.exit(1);
+}
