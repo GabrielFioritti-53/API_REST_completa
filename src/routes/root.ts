@@ -51,12 +51,7 @@ const roots: FastifyPluginAsyncTypebox = async function (fastify) {
           nombre: Type.Optional(Type.String({ minLength: 2 })),
         }),
         response: {
-          200: {
-            type: "object",
-            properties: {
-              ping: { type: "string" },
-            },
-          },
+          200: Type.Array(Usuario), //array de objetos Usuario
           401: {
             type: "object",
             properties: {
@@ -69,7 +64,7 @@ const roots: FastifyPluginAsyncTypebox = async function (fastify) {
     async function (request) {
       const query = request.query as { isAdmin: boolean };
       if (query.isAdmin) {
-        return usuarios;
+        return usuarios; //array de usuarios
       }
     }
   );
@@ -85,7 +80,7 @@ const roots: FastifyPluginAsyncTypebox = async function (fastify) {
         }),
         body: usuarioPostSchema,
         response: {
-          201: Usuario,
+          201: Usuario, //operacion exitosa
           400: {
             type: "object",
             properties: {
