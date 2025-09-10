@@ -8,11 +8,15 @@ import { roots } from "./src/routes/root.ts";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+
 const server = fastify();
 
-/* server.register(autoLoad, {
+server.register(autoLoad, {
+  dir: path.join(__dirname, "src", "plugins"),
+});
+
+server.register(autoLoad, {
   dir: path.join(__dirname, "src", "routes"),
-}); */
-await server.register(swagger);
-await server.register(roots);
+});
+
 await server.listen({ port: parseInt(process.env.PORT || "3000") });
