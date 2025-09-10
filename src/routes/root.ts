@@ -50,17 +50,12 @@ export const roots: FastifyPluginAsyncTypebox = async function (
       schema: {
         summary: "Obtener todos los usuarios",
         description: "Retorna la lista de usuarios",
-        tags: ["listaUsuarios"],
+        tags: ["usuarios"],
         querystring: Type.Object({
           nombre: Type.Optional(Type.String({ minLength: 2 })),
         }),
         response: {
-          200: {
-            type: "object",
-            properties: {
-              ping: { type: "string" },
-            },
-          },
+          200: Type.Array(Usuario), //array de objetos Usuario
           401: {
             type: "object",
             properties: {
@@ -73,7 +68,7 @@ export const roots: FastifyPluginAsyncTypebox = async function (
     async function (request) {
       const query = request.query as { isAdmin: boolean };
       if (query.isAdmin) {
-        return usuarios;
+        return usuarios; //array de usuarios
       }
     }
   );
@@ -89,7 +84,7 @@ export const roots: FastifyPluginAsyncTypebox = async function (
         }),
         body: usuarioPostSchema,
         response: {
-          201: Usuario,
+          201: Usuario, //operacion exitosa
           400: {
             type: "object",
             properties: {
@@ -121,7 +116,10 @@ export const roots: FastifyPluginAsyncTypebox = async function (
           id_usuario: Type.Number(),
         }),
         response: {
-          204: Usuario,
+          204: {
+            type: 'null',
+            description: 'Usuario actualizado'
+          },//exito sin contenido
           404: {
             type: "object",
             properties: {
@@ -159,7 +157,10 @@ export const roots: FastifyPluginAsyncTypebox = async function (
           id_usuario: Type.Number(),
         }),
         response: {
-          204: Usuario,
+          204: {           
+            type: 'null',
+            description: 'Eliminado exitosamente'
+          },//Correcto: sin contenido
           404: {
             type: "object",
             properties: {
