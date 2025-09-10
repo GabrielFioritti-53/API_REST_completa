@@ -22,7 +22,7 @@ export default fp<FastifySwaggerOptions>(async (fastify: FastifyInstance) => {
       ],
       tags: [
         { name: "root", description: "Root endpoints" },
-        { name: "Logger", description: "Loggear suario" },
+        { name: "Logger", description: "Loggear usuario" },
       ],
       components: {
         securitySchemes: {
