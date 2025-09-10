@@ -1,59 +1,63 @@
-import swagger from '@fastify/swagger'
-import type { FastifySwaggerOptions } from '@fastify/swagger'
+import swagger from "@fastify/swagger";
+import type { FastifySwaggerOptions } from "@fastify/swagger";
 import swaggerui from "@fastify/swagger-ui";
-import fp from 'fastify-plugin'
-import { FastifyInstance } from 'fastify';
+import fp from "fastify-plugin";
+import type { FastifyInstance } from "fastify";
 
 export default fp<FastifySwaggerOptions>(async (fastify: FastifyInstance) => {
-    console.log("Swagger plugin registered");
-    await fastify.register(swagger, {
+  console.log("Swagger plugin registered");
+  await fastify.register(swagger, {
     openapi: {
-        openapi: '3.0.0',
-        info: {
-        title: 'Fastify API',
-        description: 'API documentacion de Fastify TypeScript ESM',
-        version: '1.0.0'
-        },
-        servers: [
+      openapi: "3.0.0",
+      info: {
+        title: "Fastify API",
+        description: "API documentacion de Fastify TypeScript ESM",
+        version: "1.0.0",
+      },
+      servers: [
         {
-            url: 'http://localhost:3000',
-            description: 'Development server'
-        }
-        ],
-        tags: [
-        { name: 'root', description: 'Root endpoints' },
-        ],
-        components: {
-        securitySchemes: {
-            bearerAuth: {
-            type: 'http',
-            scheme: 'bearer',
-            bearerFormat: 'JWT'
-            }
-        }
+          url: "http://localhost:3000",
+          description: "Development server",
         },
-        externalDocs: {
-        url: 'https://swagger.io',
-        description: 'Find more info here'
-        }
-    }
-    });
+      ],
+      tags: [{ name: "root", description: "Root endpoints" }],
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
+      externalDocs: {
+        url: "https://swagger.io",
+        description: "Find more info here",
+      },
+    },
+  });
 
-    await fastify.register(swaggerui, {
-    routePrefix: '/docs',
+  await fastify.register(swaggerui, {
+    routePrefix: "/docs",
     uiConfig: {
-        docExpansion: 'none',
-        deepLinking: false
+      docExpansion: "none",
+      deepLinking: false,
     },
     uiHooks: {
-        onRequest: function (request, reply, next) { next() },
-        preHandler: function (request, reply, next) { next() }
+      onRequest: function (request, reply, next) {
+        next();
+      },
+      preHandler: function (request, reply, next) {
+        next();
+      },
     },
     staticCSP: true,
     transformStaticCSP: (header) => header,
-    transformSpecification: (swaggerObject, request, reply) => { return swaggerObject },
-    transformSpecificationClone: true
-    });
-    
-    console.log('Swagger UI available at /docs');
+    transformSpecification: (swaggerObject, request, reply) => {
+      return swaggerObject;
+    },
+    transformSpecificationClone: true,
+  });
+
+  console.log("Swagger UI available at /docs");
 });
