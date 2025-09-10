@@ -1,4 +1,4 @@
-import { Usuario } from "../routes/usuarios.ts";
+import { Usuario } from "../models/usuarios.ts";
 
 
 export const usuarios: Usuario[] = [
