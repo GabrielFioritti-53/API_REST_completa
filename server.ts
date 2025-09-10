@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 const server = fastify();
 
 server.register(autoLoad, {
-  dir: path.join(__dirname, "routes"),
+  dir: path.join(__dirname, "src", "routes"),
 });
 
 server.listen({ port: 3000 });

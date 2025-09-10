@@ -1,20 +1,29 @@
-import { FastifyInstance, FastifyPluginOptions } from "fastify";
+import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
+import { Type } from "@fastify/type-provider-typebox";
 
-export default async function (
-  fastify: FastifyInstance,
-  opts: FastifyPluginOptions
+export const usuariosRoutes: FastifyPluginAsyncTypebox = async function (
+  fastify,
+  options: object
 ) {
   fastify.get(
     "/",
     {
       schema: {
-        description: "Root endpoint",
-        tags: ["root"],
+        summary: "ok",
+        description: "",
+        tags: ["ok"],
+        querystring: Type.Object({}),
         response: {
           200: {
             type: "object",
             properties: {
               ping: { type: "string" },
+            },
+          },
+          401: {
+            type: "object",
+            properties: {
+              error: { type: "string" },
             },
           },
         },
@@ -24,4 +33,4 @@ export default async function (
       return { ping: "ok" };
     }
   );
-}
+};
